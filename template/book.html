@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+
+    
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="javascript:history.go(-1)">Car<span>Book</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="javascript:history.go(-1)" class="nav-link">Home</a></li>         
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <!-- END nav -->
+
+
+
+    <div class="hero-wrap ftco-degree-bg" style="background-image: url('{% static 'images/bg_2.jpg' %}');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
+            <div class="col-lg-8 ftco-animate">
+                <div class="text w-100 text-center mb-md-5 pb-md-5">
+                  <h1 class="mb-4">Fast &amp; Easy Way To Rent A Car</h1>
+                  <p style="font-size: 18px;">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+
+	  
+    <!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  Are you sure you want to book this car?
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-primary" id="confirmBooking">Yes, Book it</button>
+		  <button type="button" class="btn" data-dismiss="modal" style="background-color: gray; color:white;">Cancel</button>
+		  
+		</div>
+	  </div>
+	</div>
+  </div>
+  
+  <!-- Your Form -->
+  <section class="ftco-section ftco-no-pt bg-light">
+	  <div class="container">
+		  <div class="row no-gutters">
+			  <div class="col-md-12 featured-top">
+				  <div class="row no-gutters">
+					  <div class="col-md-4 d-flex align-items-center">
+						  <form id="bookingForm" action="{% url 'book' regno=regno %}" method="post" class="request-form ftco-animate bg-primary">
+							  {% csrf_token %}
+							  <h2>Make your trip</h2>
+							  <input type="hidden" name="regno" value="{{ regno }}">
+							  <div class="form-group">
+								  <label for="" class="label">Drop-off location</label>
+								  <input type="text" name="dropoff_location" class="form-control" placeholder="City" required>
+							  </div>
+							  <div class="d-flex">
+								  <div class="form-group mr-2">
+									  <label for="" class="label">Drop-off date</label>
+									  <input type="text" name="dropoff_date" class="form-control" id="book_off_date" placeholder="Date" required>
+								  </div>
+								  <div class="form-group ml-2">
+									  <label for="" class="label">Drop-off time</label>
+									  <input type="text" name="dropoff_time" class="form-control" id="time" placeholder="Time" required>
+								  </div>
+							  </div>
+							  <div class="form-group">
+								  <label for="" class="label">No. Of Days</label>
+								  <input type="text" name="nod" class="form-control" id="nod" placeholder="Days" required>
+							  </div>
+							  <div class="form-group">
+								  <button type="button" class="btn btn-secondary py-3 px-4" data-toggle="modal" data-target="#confirmationModal">Rent A Car Now</button>
+							  </div>
+						  </form>
+					  </div>
+					  <div class="col-md-8 d-flex align-items-center">
+						  <div class="services-wrap rounded-right w-100">
+							  <h3 class="heading-section mb-4">Better Way to Rent Your Perfect Cars</h3>
+							  <div class="row d-flex mb-4">
+								  <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+									  <div class="services w-100 text-center">
+										  <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+										  <div class="text w-100">
+											  <h3 class="heading mb-2">Choose Your Pickup Location</h3>
+										  </div>
+									  </div>      
+								  </div>
+								  <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+									  <div class="services w-100 text-center">
+										  <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-handshake"></span></div>
+										  <div class="text w-100">
+											  <h3 class="heading mb-2">Select the Best Deal</h3>
+										  </div>
+									  </div>      
+								  </div>
+								  <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+									  <div class="services w-100 text-center">
+										  <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+										  <div class="text w-100">
+											  <h3 class="heading mb-2">Reserve Your Rental Car</h3>
+										  </div>
+									  </div>      
+								  </div>
+							  </div>
+							  <p><a href="#" class="btn btn-primary py-3 px-4">Reserve Your Perfect Car</a></p>
+						  </div>
+					  </div>
+				  </div>
+			  </div>
+		  </div>
+	  </div>
+  </section>
+  
+  <script>
+	  document.getElementById("confirmBooking").addEventListener("click", function() {
+        var dropoffLocation = document.getElementsByName("dropoff_location")[0].value.trim();
+        var dropoffDate = document.getElementsByName("dropoff_date")[0].value.trim();
+        var dropoffTime = document.getElementsByName("dropoff_time")[0].value.trim();
+        var nod = document.getElementsByName("nod")[0].value.trim();
+
+        if (dropoffLocation === '' || dropoffDate === '' || dropoffTime === '' || nod === '') {
+            alert("Please fill in all fields.");
+        } else {
+            document.getElementById("bookingForm").submit();
+        }
+    });
+  </script>
+  
+
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+    <script src="{% static 'js/scrollax.min.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="{% static 'js/google-map.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    
+
+</body>
+</html>
