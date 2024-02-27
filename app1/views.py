@@ -269,7 +269,7 @@ def password_reset(request):
             subject = 'Password Reset Request'
             html_message = render_to_string('password_reset_email.html', {'reset_link': reset_link})
             # message = f'Please click the following link to reset your password: {reset_link}'
-            send_mail(subject, '', 'rahulkmilan92@gmail.com', [email],html_message=html_message)
+            send_mail(subject, '', 'your_mail_id@gmail.com', [email],html_message=html_message)
             messages.success(request, 'Password reset link sent to your email.')
             return redirect('password_reset_done')
         else:
