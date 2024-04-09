@@ -1,0 +1,697 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Dealer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    
+    
+    <link rel="stylesheet" href="{% static 'css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+
+    
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+	<style>
+		#lout {
+			background-color: transparent;
+			color: white;
+			padding: 5px 5px;
+			margin: 3px;
+			border-radius: 5px;
+			border: 0;
+		}
+		#lout:hover {
+			color: gray;
+		}a{
+      text-decoration: none;
+    } body {
+      background-image: url("{%static 'images/d1.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      height: 100vh;
+      justify-content: center;
+  }table {
+    background-color: rgba(255, 255, 255, 0.716); /* Adjust the alpha value to control the opacity */
+    padding: 20px;
+    backdrop-filter: blur(10px); /* Apply blur effect */
+    box-shadow: 0 0 20px rgba(106, 103, 103, 0.415); /* Add shadow for better visibility */
+}h2{
+  color: rgb(255, 255, 255);
+  text-shadow: rgb(230, 216, 216);
+}td{
+  font-size: 18px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: 15px;
+}
+
+#addConfirmationModal
+{
+  backdrop-filter: blur(2px); /* Adjust blur strength as needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust overlay color for addConfirmationModal */
+}
+/* Toggle button CSS */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+	</style>
+	
+  </head>
+  <body>
+    
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-dark" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="dealer-log">Car<span>Book</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item active"><a href="#bookings" class="nav-link">Bookings</a></li>
+			  <form method="post" action="logout">
+				{% csrf_token %}
+				<button type="button" id="lout">Logout</button>
+				</form>         
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+        <!-- Button to trigger the modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCarModal" style="margin: 10px; float: right;">
+          Add Car
+        </button>
+      
+    <!-- END nav -->
+    {% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    <!-- <div class="hero-wrap ftco-degree-bg" style="background-image: url('{% static 'images/bg_.jpg' %}');" data-stellar-background-ratio="0.5"> -->
+      <div class="overlay"></div>
+      
+			<div style="margin-top: 10px;" class="container ">
+        <h2 class="text-capitalize" >Welcome, {{ username }}</h2><br>
+        {% if cars %}
+        <h2>Your Cars</h2>
+        <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead style="background-color: #0470aa;
+            color: white;"> 
+                <tr>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Registration Number</th>
+                    <th>Year</th>
+                    <th>Price</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Availability</th>
+                    <th>Edit</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                <tr>
+                    <td>{{ car.make }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.regno }}</td>
+                    <td>{{ car.year }}</td>
+                    <td id="priceCell_{{ car.id }}">{{ car.price }}</td>
+                    <td id="locationCell_{{ car.id }}">{{ car.location }}</td>
+                    
+                    <!-- <td>
+                      <span id="priceDisplay_{{ car.id }}">{{ car.price }}</span>
+                      <form id="priceForm_{{ car.id }}" style="display: none;" action="/edit_car_field/{{ car.id }}/" method="post">
+                          {% csrf_token %}
+                          <input type="number" name="price" value="{{ car.price }}">
+                      </form> 
+                    </td>
+                    <td>
+                        <span id="locationDisplay_{{ car.id }}">{{ car.location }}</span>
+                        <form id="locationForm_{{ car.id }}" style="display: none;" action="/edit_car_field/{{ car.id }}/" method="post">
+                            {% csrf_token %}
+                            <input type="text" name="location" value="{{ car.location }}">
+                        </form>
+                    </td> -->
+                
+                  
+                    <td>{{ car.status }}{% if car.status == 'Rejected' %}: Reason - {{ car.rejection_reason }}{% endif %}</td>
+                      <!-- Add this column in each row to display the toggle button -->             
+                      <td>
+                        {% if not car.booked %}
+                        <form id="availabilityForm" method="post" action="{% url 'toggle_availability' %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="car_id" id="carIdInput" value="{{ car.id }}">
+                          <label class="switch">
+                            <input type="checkbox" {% if car.availability %}checked{% endif %} onchange="toggleAvailability('{{ car.id }}')" id="availability_{{ car.id }}">
+                            <span class="slider round"></span>
+                          </label>
+                        </form>
+                        {% elif car.status == 'Pending' %}
+                          Car is currently being processed. Please wait.
+                        {% else %}
+                          Booked
+                        {% endif %}
+                      </td>
+                      <td>
+                        <form id="editForm_{{ car.id }}" style="display: none;" action="/edit_car_field/{{ car.id }}/" method="post">
+                            {% csrf_token %}
+                            <label for="editPrice_{{ car.id }}">Price:</label>
+                            <input type="number" id="editPrice_{{ car.id }}" name="price" value="{{ car.price }}"><br>
+                            <label for="editLocation_{{ car.id }}">Location:</label>
+                            <input type="text" id="editLocation_{{ car.id }}" name="location" value="{{ car.location }}"><br>
+                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="button" onclick="cancelEdit('{{ car.id }}')" class="btn btn-danger">Cancel</button>
+                        </form>
+                        <button onclick="toggleEdit('{{ car.id }}')" class="btn btn-primary editButton" id="editButton_{{ car.id }}">Edit</button>
+                      </td>
+                    
+                      <td>
+                        {% if not car.booked %}
+                          <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ car.id }}')">Remove</button>
+                          {% else %}
+                          Booked
+                        {% endif %}
+                      </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: white;">No cars added yet.</p>
+        {% endif %}
+      </div>
+      </div>
+      <div class="container">
+        <br><h2 id="bookings">Booked cars</h2><br>
+{% if bookings %}
+<div class="table-responsive">
+  <table class="table table-bordered text-center">
+    <thead style="background-color: #045daafa;
+    color: white;">
+        <tr>
+            <th>Username</th>
+            <th>Phone No.</th>
+            <th>Registration Number</th>
+            <th>Drop-off Location</th>
+            <th>Drop-off Date</th>
+            <th>Drop-off Time</th>
+            <th>No. of Days</th>
+            <th>Amount</th>
+            <th>Payment</th>
+            <th>Order ID</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.username }}</td>
+            <td>{{ booking.customer.pno }}</td>
+            <td>{{ booking.regno }}</td>
+            <td>{{ booking.dropoff_location }}</td>
+            <td>{{ booking.dropoff_date }}</td>
+            <td>{{ booking.dropoff_time }}</td>
+            <td>{{ booking.nod }}</td>
+            <td>{{ booking.amount }}</td>
+            <td>{% if booking.paid %}Paid{% else %}Not Paid{% endif %}</td>
+            <td>{{ booking.order_id }}</td>
+            <td>
+              {% if booking.is_available %}
+              Live
+              {% else %}
+              {% if booking.car.booked %}
+              <form method="post" action="{% url 'change_booking_status' booking.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" style="margin: 15px;">Change to Available</button>
+              </form> 
+              {% else %}
+                Ride over
+              {% endif %}
+              {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p style="color: white; margin:0 50px 100px;">No active bookings.</p>
+{% endif %}
+    </div>
+  </div>
+</div>
+    
+			<!-- Button to trigger the modal -->
+
+
+<!--logout model  -->
+<div class="modal fade" id="logoutConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Logout Confirmation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to logout?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmLogout">Logout</button>
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>      
+
+<!-- Modal -->
+<div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCarModalLabel">Add a Car</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <!-- Car form -->
+        <form id="addCarForm" method="post" action="dealer-log" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row mb-3">
+            <div class="col">
+              <label for="make" class="form-label">Make</label>
+              <input type="text" class="form-control" id="make" name="make" required>
+            </div>
+            <div class="col">
+              <label for="model" class="form-label">Model</label>
+              <input type="text" class="form-control" id="model" name="model" required>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="year" class="form-label">Year</label>
+              <input type="number" class="form-control" id="year" name="year" required>
+            </div>
+            <div class="col">
+              <label for="regno" class="form-label">Reg No.</label>
+              <input type="text" class="form-control" id="regno" name="regno" required>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="location" class="form-label">Location</label>
+              <input type="text" class="form-control" id="location" name="location" required><br>
+            </div>
+            <div class="col">    
+              <label for="price" class="form-label">Price per Day</label>
+              <input type="number" class="form-control" id="price" name="price" required><br>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col">
+              <label for="rc" class="form-label">RC book:</label>
+              <input type="file" class="form-control-sm" id="rc" name="rc" accept="image/*" required><br>
+            </div>
+            <div class="col">
+              <label for="photos" class="form-label">Photos:</label>
+              <input type="file" class="form-control-sm" id="photos" name="photos" accept="image/*" required>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary" onclick="confirmAdd()">
+              Add Car
+            </button>
+
+          </div>
+        </form>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Add Car Confirmation -->
+<div class="modal fade" id="addConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="addConfirmationModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="addConfirmationModalTitle">Confirmation</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="addConfirmationMessage"></div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="proceedAdd()">Proceed</button>
+              <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal for Delete Confirmation -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="deleteConfirmationModalTitle">Confirmation</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="confirmationMessage"></div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" onclick="proceedDelete()">Proceed</button>
+              <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to switch the availability?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="confirmToggle">Confirm</button>
+              <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+	
+	
+     
+
+    <footer class="ftco-footer ftco-bg-dark ftco-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2"><a href="#" class="logo">Car<span>book</span></a></h2>
+              <p>Discover the fastest and easiest way to rent a car with Carbook. From road trips to city explorations, we offer a seamless booking process and a diverse range of vehicles to suit your needs.</p>
+              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4 ml-md-5">
+              <h2 class="ftco-heading-2">Information</h2>
+              <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">About</a></li>
+                <li><a href="#" class="py-2 d-block">Services</a></li>
+                <li><a href="#" class="py-2 d-block">Term and Conditions</a></li>
+                <li><a href="#" class="py-2 d-block">Best Price Guarantee</a></li>
+                <li><a href="#" class="py-2 d-block">Privacy &amp; Cookies Policy</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+             <div class="ftco-footer-widget mb-4">
+              <h2 class="ftco-heading-2">Customer Support</h2>
+              <ul class="list-unstyled">
+                <li><a href="#" class="py-2 d-block">FAQ</a></li>
+                <li><a href="#" class="py-2 d-block">Payment Option</a></li>
+                <li><a href="#" class="py-2 d-block">Booking Tips</a></li>
+                <li><a href="#" class="py-2 d-block">How it works</a></li>
+                <li><a href="#" class="py-2 d-block">Contact Us</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md">
+            <div class="ftco-footer-widget mb-4">
+            	<h2 class="ftco-heading-2">Have a Questions?</h2>
+            	<div class="block-23 mb-3">
+	              <ul>
+	                <li><span class="icon icon-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">+2 392 3929 210</span></a></li>
+	                <li><a href="mailto:carbook.demo@gmail.com"><span class="icon icon-envelope"></span><span class="text">carbook.demo@gmail.com</span></a></li>
+	              </ul>
+	            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center">
+
+            <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved 
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'js/aos.js' %}"></script>
+  <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'js/scrollax.min.js' %}"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script src="{% static 'js/google-map.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <script>
+    // Function to confirm deletion of a car
+    function confirmDelete(carId) {
+        $('#deleteConfirmationModal').modal('show');
+        $('#confirmationMessage').text('Are you sure you want to delete this car?');
+        $('#deleteConfirmationModal').find('.btn-primary').click(function() {
+            proceedDelete(carId);
+        });
+    }
+
+    // Function to proceed with deletion after confirmation
+    function proceedDelete(carId) {
+        // Redirect to the delete URL with the car ID
+        window.location.href = "/delete-car/" + carId;
+    }
+    // Function to confirm adding a car
+    function confirmAdd() {
+        $('#addConfirmationModal').modal('show');
+        $('#addConfirmationMessage').text('Are you sure you want to add this car?');
+    }
+
+    // Function to proceed with adding after confirmation
+    function proceedAdd() {
+    // Check if all required fields are filled
+    var make = $('#make').val();
+    var model = $('#model').val();
+    var year = $('#year').val();
+    var regno = $('#regno').val();
+    var price = $('#price').val();
+    var location = $('#location').val();
+    var rc = $('#rc').val();
+    var photos = $('#photos').val();
+
+    if (make && model && year && regno && price && location && rc && photos) {
+        // If all fields are filled, submit the form for adding a car
+        $('#addCarForm').submit();
+    } else {
+        // If any required field is empty, show an alert or error message to the user
+        alert("Please fill in all fields before adding the car.");
+        // Optionally, you can customize the error message or display it in a specific location on the page
+    }
+}
+$(document).ready(function() {
+  $('#lout').click(function() {
+    $('#logoutConfirmationModal').modal('show');
+  });
+
+  $('#confirmLogout').click(function() {
+    // Submit the form when logout is confirmed
+    $('#lout').closest('form').submit();
+  });
+});
+
+
+function toggleAvailability(carId) {
+  // Display confirmation modal
+  $('#confirmationModal').modal('show');
+
+  // Set the value of a hidden input field in the form to the car ID
+  $('#carIdInput').val(carId);
+
+  // When user confirms, submit the form
+  $('#confirmToggle').click(function() {
+    // Submit the form
+    $('#availabilityForm').submit();
+  });
+
+  // Reset toggle if the user cancels or dismisses the confirmation modal
+  $('#confirmationModal').on('hidden.bs.modal', function () {
+    // Get the checkbox element
+    var checkbox = document.getElementById('availability_' + carId);
+    // Revert the toggle state
+    checkbox.checked = !checkbox.checked; // Toggle the current state
+  });
+}
+
+
+function toggleEdit(carId) {
+    var editForm = document.getElementById('editForm_' + carId);
+    var editButtons = document.querySelectorAll('.editButton');
+    var saveButtons = document.querySelectorAll('.saveButton');
+    var cancelButtons = document.querySelectorAll('.cancelButton');
+
+    // Toggle visibility of form and buttons
+    editForm.style.display = 'block';
+
+    // Show Save and Cancel buttons, hide Edit buttons
+    saveButtons.forEach(function(button) {
+        button.style.display = 'inline-block';
+    });
+    cancelButtons.forEach(function(button) {
+        button.style.display = 'inline-block';
+    });
+    editButtons.forEach(function(button) {
+        button.style.display = 'none';
+    });
+}
+
+function cancelEdit(carId) {
+    var editForm = document.getElementById('editForm_' + carId);
+    var editButtons = document.querySelectorAll('.editButton');
+    var saveButtons = document.querySelectorAll('.saveButton');
+    var cancelButtons = document.querySelectorAll('.cancelButton');
+
+    // Toggle visibility of form and buttons
+    editForm.style.display = 'none';
+
+    // Show Edit button, hide Save and Cancel buttons
+    saveButtons.forEach(function(button) {
+        button.style.display = 'none';
+    });
+    cancelButtons.forEach(function(button) {
+        button.style.display = 'none';
+    });
+    editButtons.forEach(function(button) {
+        button.style.display = 'inline-block';
+    });
+}
+
+
+
+
+
+
+
+
+</script>
+
+    
+  </body>
+</html>

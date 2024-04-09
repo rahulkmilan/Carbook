@@ -1,0 +1,678 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Admin</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/open-iconic-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/ionicons.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.timepicker.css' %}">
+
+    
+    <link rel="stylesheet" href="{% static 'css/flaticon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  
+
+
+	<style>
+		#lout {
+			background-color: transparent;
+			color: white;
+			padding: 5px 5px;
+			margin: 3px;
+			border-radius: 5px;
+			border: 0;
+		}
+		#lout:hover {
+			color: gray;
+		}#close{
+      background-color: rgba(128, 128, 128, 0.785);
+      color: white;
+    }html {
+    height: 100%;
+}
+
+body {
+    
+    padding-top: 60px; /* Height of the fixed navbar */
+    margin: 0;
+    padding-bottom: 100px; /* Height of the footer */
+    position: relative;
+    min-height: 100%;
+    background-image: url("{%static 'images/nw.jpg' %}");
+    background-repeat: no-repeat;
+   
+}
+
+.footer {
+    background-color: #0b0b0b; /* Example background color */
+    color: white; /* Example text color */
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}table {
+    background-color: rgba(255, 255, 255, 0.471); /* Adjust the alpha value to control the opacity */
+    padding: 20px;
+    backdrop-filter: blur(15px); /* Apply blur effect */
+    box-shadow: 0 0 20px rgba(106, 103, 103, 0.356); /* Add shadow for better visibility */
+}h2{
+    color: rgb(255, 255, 255);
+    text-shadow: rgb(22, 22, 22);
+  }td{
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+
+
+.search-container {
+    display: flex;
+    margin-bottom: 8px;
+    margin-top: 12px;
+}
+
+.search-container input[type=text] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px 5px 5px 5px;
+    width: 25%;
+    font-size: 16px;
+}
+
+
+
+	</style>
+	
+  </head>
+  <body>
+    
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-dark fixed-top" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href='#'>Car<span>Book</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item active"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item active"><a href="#ac"  class="nav-link">Accepted Cars</a></li>
+            <li class="nav-item active"><a href="#bookings" class="nav-link">Bookings</a></li>
+            <li class="nav-item active"><a href="#dealers" class="nav-link">Dealers</a></li>
+            <li class="nav-item active"><a href="#customers" class="nav-link">Customers</a></li>
+              <form method="post" action="logout">
+                {% csrf_token %}
+                <button type="button" id="lout">Logout</button>
+              </form>          
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <!-- END nav -->
+    
+    <div class="container" style="margin-top: 20px;">
+      <!-- car_list.html -->
+      {% for message in messages %}
+      <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+  
+      {% if cars %}
+      <h2>Cars to be Accepted or Rejected</h2><br>
+      <div class="table-responsive">
+          <table class="table table-bordered text-center">
+              <thead style="background-color: rgba(0, 0, 0, 0.795); color: white;">
+                  <tr>
+                      <th>Regno</th>
+                      <th>Make</th>
+                      <th>Model</th>
+                      <th>Year</th>
+                      <th>Price/day</th>
+                      <th>Location</th>
+                      <th>RC Book</th>
+                      <th>Photos</th>
+                      <th>Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for car in cars %}
+                  <tr>
+                      <td>{{ car.regno }}</td>
+                      <td>{{ car.make }}</td>
+                      <td>{{ car.model }}</td>
+                      <td>{{ car.year }}</td>
+                      <td>{{ car.price }}</td>
+                      <td>{{ car.location }}</td>
+                      <td><a href="{{ car.rc.url }}" target="_blank"><img src="{{ car.rc.url }}" alt="RC Book" style="max-width: 100px;"></a></td>
+                      <td><a href="{{ car.photos.url }}" target="_blank"><img src="{{ car.photos.url }}" alt="Car Photo" style="max-width: 100px;"></a></td>
+                      <td style="padding: 8px;">
+                          <form id="acceptForm{{ car.id }}" method="post" action="{% url 'accept_car' %}">
+                              {% csrf_token %}
+                              <input type="hidden" name="car_id" value="{{ car.id }}">
+                              <button type="button" class="btn btn-success" onclick="confirmAction('accept', '{{ car.id }}')">Accept</button>
+                          </form>
+                          <form id="rejectForm{{ car.id }}" method="post" action="{% url 'reject_car' %}">
+                              {% csrf_token %}
+                              <input type="hidden" name="car_id" value="{{ car.id }}">  
+                              <div class="form-group">
+                                  <textarea name="reason" placeholder="Reason for rejection" class="form-control" rows="3" required></textarea>
+                              </div>
+                              <button type="button" class="btn btn-danger mt-2" onclick="confirmAction('reject', '{{ car.id }}')">Reject</button>   
+                          </form>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div>
+      {% endif %}
+  </div>
+  
+
+  <div class="container">
+    <br>
+    <h2 id="ac">Accepted Cars</h2>
+    <div class="search-container">
+      <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for cars using Regno/Username...">
+      <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+    </div>
+    {% if ac_cars %}
+    <div class="table-responsive">
+        <table class="table table-bordered text-center" id="carTable">
+            <thead style="background-color: #04AA6D; color: white;">
+                <tr>
+                    <th>Username</th>
+                    <th>Regno</th>
+                    <th>Make</th>
+                    <th>Model</th>
+                    <th>Year</th>
+                    <th>Price/day</th>
+                    <th>Location</th>
+                    <th>RC Book</th>
+                    <th>Photos</th>
+                    <th>Action</th> <!-- Added a new column for Action -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in ac_cars %}
+                <tr>
+                    <td>{{ car.username }}</td>
+                    <td>{{ car.regno }}</td>
+                    <td>{{ car.make }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.year }}</td>
+                    <td>{{ car.price }}</td>
+                    <td>{{ car.location }}</td>
+                    <td>
+                        <a href="{{ car.rc.url }}" target="_blank">
+                            <img src="{{ car.rc.url }}" alt="RC Book" style="max-width: 100px;">
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ car.photos.url }}" target="_blank">
+                            <img src="{{ car.photos.url }}" alt="Car Photo" style="max-width: 100px;">
+                        </a>
+                    </td>
+                    <td> <!-- Added a new column for the suspend option -->
+                      <form id="suspendForm" method="post">
+                          {% csrf_token %}
+                          <button type="button" class="btn btn-danger btn-sm" onclick="confirmSuspend({{ car.id }})">Suspend</button>
+                      </form>
+                  </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p style="color: white;">No Accepted cars yet!</p>
+    {% endif %}
+</div>
+
+
+
+<!-- Car suspend modal -->
+<div class="modal fade" id="confirmSuspendModal" tabindex="-1" role="dialog" aria-labelledby="confirmSuspendModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmSuspendModalLabel">Confirm Suspension</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to suspend this car?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmSuspendBtn">Suspend</button>
+        <button type="button" class="btn btn" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--logout model  -->
+<div class="modal fade" id="logoutConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Logout Confirmation</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to logout?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="confirmLogout">Logout</button>
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="confirmationModalTitle">Confirmation</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="confirmationMessage"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="proceedAction()">Proceed</button>
+              <button type="button" id="close" class="btn" data-bs-dismiss="modal">Cancel</button>
+              
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="container">
+  <br>
+  <h2 id="bookings">Bookings</h2>
+  <br>
+  {% if bookings %}
+  <div class="table-responsive">
+      <table class="table table-bordered text-center">
+          <thead style="background-color: #046aaa; color: white;">
+              <tr>
+                  <th>Username</th>
+                  <th>Registration Number</th>
+                  <th>Model</th>
+                  <th>Drop-off Location</th>
+                  <th>Drop-off Date</th>
+                  <th>Drop-off Time</th>
+                  <th>No. of Days</th>
+                  <th>Payment</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for booking in bookings %}
+              <tr>
+                  <td>{{ booking.username }}</td>
+                  <td>{{ booking.regno }}</td>
+                  <td>{{ booking.car.model }}</td>
+                  <td>{{ booking.dropoff_location }}</td>
+                  <td>{{ booking.dropoff_date }}</td>
+                  <td>{{ booking.dropoff_time }}</td>
+                  <td>{{ booking.nod }}</td>
+                  <td>{% if booking.paid %}Paid{% else %}Not Paid{% endif %}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% else %}
+  <p style="color: white;">No active bookings.</p>
+  {% endif %}
+</div>
+
+
+<div class="container">
+  <br>
+  <h2 id="dealers">Dealers</h2>
+  <div class="search-container">
+    <input type="text" id="searchdealInput" onkeyup="searchdealTable()" placeholder="Search using Username....">
+    <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+  </div>
+  {% if dealers %}
+  <div class="table-responsive">
+      <table class="table table-bordered text-center" id="dealerTable">
+          <thead style="background-color: #00a3fbce; color: white;">
+              <tr>
+                  <th>Username</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Contact No.</th>
+                  <th>Email</th>
+                  <th>Aadhar</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for dealer in dealers %}
+              <tr>
+                  <td>{{ dealer.username }}</td>
+                  <td>{{ dealer.fname }}</td>
+                  <td>{{ dealer.lname }}</td>
+                  <td>{{ dealer.pno }}</td>
+                  <td>{{ dealer.email }}</td>
+                  <td>
+                      <a href="{{ dealer.ad.url }}" target="_blank">
+                          <img src="{{ dealer.ad.url }}" alt="Aadhar card" style="max-width: 100px;">
+                      </a>
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-danger" onclick="openConfirmModal({{ dealer.id }})">Deactivate</button>
+                      <form id="deactivateDealerForm{{ dealer.id }}" action="{% url 'deactivate_dealer' dealer.id %}" method="POST" style="display: none;">
+                          {% csrf_token %}
+                      </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% else %}
+  <p style="color: white;">No active dealers.</p>
+  {% endif %}
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">Confirm Deactivation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to deactivate this dealer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmDeactivationBtn">Confirm</button>
+        <button type="button" class="btn btn" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+  <br>
+  <h2 id="customers">Customers</h2>
+  <div class="search-container">
+    <input type="text" id="searchcusInput" onkeyup="searchcusTable()" placeholder="Search using Username...">
+    <!-- <button type="submit"><i class="fa fa-search"></i></button> -->
+  </div>
+  {% if customers %}
+  <div class="table-responsive">
+      <table class="table table-bordered text-center" id="cusTable">
+          <thead style="background-color: #026bfddb; color: white;">
+              <tr>
+                  <th>Username</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Contact No.</th>
+                  <th>Email</th>
+                  <th>Driving License</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for customer in customers %}
+              <tr>
+                  <td>{{ customer.username }}</td>
+                  <td>{{ customer.fname }}</td>
+                  <td>{{ customer.lname }}</td>
+                  <td>{{ customer.pno }}</td>
+                  <td>{{ customer.email }}</td>
+                  <td>
+                      <a href="{{ customer.dl.url }}" target="_blank">
+                          <img src="{{ customer.dl.url }}" alt="Driving License" style="max-width: 100px;">
+                      </a>
+                  </td>
+                  <td>
+                      <button type="button" class="btn btn-danger" onclick="openCustomerConfirmModal({{ customer.id }})">Deactivate</button>
+                      <form id="deactivateCustomerForm{{ customer.id }}" action="{% url 'deactivate_customer' customer.id %}" method="POST" style="display: none;">
+                          {% csrf_token %}
+                      </form>
+                  </td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+  {% else %}
+  <p style="color: white;">No active customers.</p>
+  {% endif %}
+</div>
+
+
+<!-- Customer Deactivation Modal -->
+<div class="modal" id="confirmCustomerModal" tabindex="-1" role="dialog" aria-labelledby="confirmCustomerModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmCustomerModalLabel">Confirm Deactivation</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to deactivate this customer?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmCustomerDeactivationBtn">Confirm</button>
+        <button type="button" class="btn btn" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+    <footer class="footer" ></footer>
+    
+  <!-- loader -->
+  <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+
+  
+  <script src="{% static 'assets/js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'assets/js/popper.min.js' %}"></script>
+  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/plugins/scroll-fixed/jquery-scrolltofixed-min.js' %}"></script>
+  <script src="{% static 'assets/plugins/testimonial/js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'assets/js/script.js' %}"></script>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+  <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+  <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'js/aos.js' %}"></script>
+  <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+  <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script>
+    var actionType;
+    var carId;
+
+    function confirmAction(type, id) {
+        actionType = type;
+        carId = id;
+        if (type === 'accept') {
+            $('#confirmationMessage').text('Are you sure you want to accept this car?');
+        } else if (type === 'reject') {
+            $('#confirmationMessage').text('Are you sure you want to reject this car?');
+        }
+        $('#confirmationModal').modal('show');
+    }
+
+    function proceedAction() {
+        if (actionType === 'accept') {
+            $('#acceptForm' + carId).submit();
+        } else if (actionType === 'reject') {
+            $('#rejectForm' + carId).submit();
+        }
+    }
+    $(document).ready(function() {
+        $('#lout').click(function() {
+          $('#logoutConfirmationModal').modal('show');
+        });
+    
+        $('#confirmLogout').click(function() {
+          // Submit the form when logout is confirmed
+          $('#lout').closest('form').submit();
+        });
+      });
+      
+      function openConfirmModal(dealerId) {
+        $('#confirmModal').modal('show');
+        $('#confirmDeactivationBtn').click(function() {
+            $('#deactivateDealerForm' + dealerId).submit();
+        });
+    }
+    
+    function openCustomerConfirmModal(customerId) {
+      $('#confirmCustomerModal').modal('show');
+      $('#confirmCustomerDeactivationBtn').click(function() {
+          $('#deactivateCustomerForm' + customerId).submit();
+      });
+  }
+    
+  function confirmSuspend(carId) {
+    $('#confirmSuspendModal').modal('show'); // Show the confirmation modal
+    $('#confirmSuspendBtn').click(function() {
+      // When the user clicks the "Suspend" button in the modal, submit the form
+      $('#suspendForm').attr('action', '/suspend_car/' + carId + '/');
+      $('#suspendForm').submit();
+    });
+  }
+
+
+
+    function searchTable() {
+        // Declare variables
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("carTable");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows
+        for (i = 0; i < tr.length; i++) {
+            var usernameColumn = tr[i].getElementsByTagName("td")[0];
+            var regnoColumn = tr[i].getElementsByTagName("td")[1];
+            if (usernameColumn || regnoColumn) {
+                var usernameValue = usernameColumn.textContent || usernameColumn.innerText;
+                var regnoValue = regnoColumn.textContent || regnoColumn.innerText;
+                // Convert text to uppercase for case-insensitive comparison
+                usernameValue = usernameValue.toUpperCase();
+                regnoValue = regnoValue.toUpperCase();
+                // Check if the search query matches username or registration number
+                if (usernameValue.indexOf(filter) > -1 || regnoValue.indexOf(filter) > -1) {
+                    tr[i].style.display = ""; // Show the row
+                } else {
+                    tr[i].style.display = "none"; // Hide the row
+                }
+            }
+        }
+    }
+
+    function searchdealTable() {
+      // Declare variables
+      var input, filter, table, tr, td, i, txtValue;
+      input = document.getElementById("searchdealInput");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("dealerTable");
+      tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows
+      for (i = 0; i < tr.length; i++) {
+          var usernameColumn = tr[i].getElementsByTagName("td")[0];
+          if (usernameColumn) {
+              var usernameValue = usernameColumn.textContent || usernameColumn.innerText;
+              // Convert text to uppercase for case-insensitive comparison
+              usernameValue = usernameValue.toUpperCase();
+              // Check if the search query matches username or registration number
+              if (usernameValue.indexOf(filter) > -1) {
+                  tr[i].style.display = ""; // Show the row
+              } else {
+                  tr[i].style.display = "none"; // Hide the row
+              }
+          }
+      }
+  }
+
+  function searchcusTable() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchcusInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("cusTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows
+    for (i = 0; i < tr.length; i++) {
+        var usernameColumn = tr[i].getElementsByTagName("td")[0];
+        if (usernameColumn) {
+            var usernameValue = usernameColumn.textContent || usernameColumn.innerText;
+            // Convert text to uppercase for case-insensitive comparison
+            usernameValue = usernameValue.toUpperCase();
+            // Check if the search query matches username or registration number
+            if (usernameValue.indexOf(filter) > -1) {
+                tr[i].style.display = ""; // Show the row
+            } else {
+                tr[i].style.display = "none"; // Hide the row
+            }
+        }
+    }
+}
+      
+</script>
+    
+  </body>
+</html>
